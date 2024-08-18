@@ -81,7 +81,8 @@
             font-size: 16px;
             background-color: white;
             color: black;
-            border: 1px solid black; /* Adding 1px black border */
+            border: 1px solid black;
+            /* Adding 1px black border */
             border-radius: 5px;
             font-weight: bold;
         }
@@ -320,6 +321,11 @@
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKquK0_Fe8Wr51YDrxghVdxebwHqG3ik4&libraries=places&callback=initMap"
         async defer></script>
+    <script>
+        if (window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
+            document.write('<script defer src="/_vercel/insights/script.js"><\/script>');
+        }
+    </script>
 </body>
 
 </html>

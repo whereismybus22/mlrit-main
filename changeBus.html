@@ -148,6 +148,11 @@
             <img class="bus-route-button" src="route21/img/changeBus.svg" alt="Route 21" onclick="redirectToRoute('route21');">
         </div>
     </div>
+    <script>
+        if (window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
+            document.write('<script defer src="/_vercel/insights/script.js"><\/script>');
+        }
+    </script>
 </body>
 
 </html>
