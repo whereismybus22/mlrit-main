@@ -183,58 +183,89 @@
             </div>
         </div>
         <div class="help-wrapper">
-            <a href="#" class="help-link" onclick="window.location='https://mlrit-whereismybus-persist.vercel.app/'">Continue with website !</a>
+            <a href="#" class="help-link"
+                onclick="window.location='https://mlrit-whereismybus-persist.vercel.app/'">Continue with website !</a>
             <a href="#" class="help-link" onclick="openHelpPage()">help?</a>
         </div>
-        <div class="alert">
+        <div class="alert" id="alert-box">
             <img src="/pwaInstallation/images/alert.png" alt="Alert"> <br>
-            <p>Use <b>Google Chrome</b> Only !!</p>
+            <p id="alert-message">Use <b>Google Chrome</b> Only !!</p>
         </div>
     </div>
     <script>
-        if (window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
-            document.write('<script defer src="/_vercel/insights/script.js"><\/script>');
+
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            window.location = '../index.html';
+        }
+
+        // Function to check if the user is on an iPhone
+        function isIphone() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            return (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream);
+        }
+
+        // Update the alert message based on device
+        function updateAlertMessage() {
+            const alertMessage = document.getElementById('alert-message');
+            if (isIphone()) {
+                alertMessage.innerHTML = 'Use <b>Safari Browser</b> Only !!';
+            } else {
+                alertMessage.innerHTML = 'Use <b>Google Chrome</b> Only !!';
+            }
+        }
+
+        // Call updateAlertMessage on page load
+        window.addEventListener('load', () => {
+
+            updateAlertMessage();
+
+            if (window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
+                document.write('<script defer src="/_vercel/insights/script.js"><\/script>');
+            }
+
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/pwaInstallation/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    }, err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            }
+
+            let deferredPrompt;
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                // Prevent the default prompt
+                e.preventDefault();
+                deferredPrompt = e;
+
+                // Add event listener to the download button
+                document.getElementById('download-pwa').addEventListener('click', () => {
+                    if (isIphone()) {
+                        // Redirect iPhone users to the help page
+                        window.location.href = '/pwaInstallation/help.html';
+                    } else {
+                        // Show the install prompt for other devices
+                        if (deferredPrompt) {
+                            deferredPrompt.prompt();
+                            deferredPrompt.userChoice.then((choiceResult) => {
+                                if (choiceResult.outcome === 'accepted') {
+                                    console.log('User accepted the PWA prompt');
+                                } else {
+                                    console.log('User dismissed the PWA prompt');
+                                }
+                                deferredPrompt = null;
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
+        function openHelpPage() {
+            window.location.href = '/pwaInstallation/help.html';
         }
     </script>
 </body>
-<script>
-
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-        window.location = '../index.html';
-    }
-
-    let deferredPrompt;
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        document.getElementById('download-pwa').addEventListener('click', () => {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the PWA prompt');
-                } else {
-                    console.log('User dismissed the PWA prompt');
-                }
-                deferredPrompt = null;
-            });
-        });
-    });
-
-    function openHelpPage() {
-        window.location.href = '/pwaInstallation/help.html';
-    }
-
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/pwaInstallation/service-worker.js')
-                .then(registration => {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-        });
-    }
-</script>
 
 </html>
