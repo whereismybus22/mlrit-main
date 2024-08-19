@@ -202,7 +202,7 @@
     // Function to detect if the user is on an iPhone
     function isIPhone() {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        return /iPhone/i.test(userAgent);
+        return /android/i.test(userAgent);
     }
     if (isIPhone()) {
         document.getElementById('alertMessage').innerHTML = 'Use <b>Safari Browser</b> Only !!';
@@ -221,6 +221,10 @@
         e.preventDefault();
         deferredPrompt = e;
         document.getElementById('download-pwa').addEventListener('click', () => {
+            if(isIPhone){
+                window.location='/pwaInstallation/help.html';
+                return;
+            }
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then((choiceResult) => {
                 if (choiceResult.outcome === 'accepted') {
