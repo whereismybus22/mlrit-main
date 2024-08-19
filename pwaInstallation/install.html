@@ -240,7 +240,7 @@
                 }
                 deferredPrompt = null; // Clear the deferred prompt after use
             });
-        } else {
+        } else if (!(document.getElementById('alertMessage').innerHTML === '<b>App Installing ... !!</b>')) {
             window.open('https://mlrit-whereismybus.vercel.app/');
         }
     });
