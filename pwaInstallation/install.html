@@ -183,12 +183,13 @@
             </div>
         </div>
         <div class="help-wrapper">
-            <a href="#" class="help-link" onclick="window.location='https://mlrit-whereismybus-persist.vercel.app/'">Continue with website !</a>
+            <a href="#" class="help-link"
+                onclick="window.location='https://mlrit-whereismybus-persist.vercel.app/'">Continue with website !</a>
             <a href="#" class="help-link" onclick="openHelpPage()">help?</a>
         </div>
-        <div class="alert">
+        <div class="alert" id="alertBox">
             <img src="/pwaInstallation/images/alert.png" alt="Alert"> <br>
-            <p>Use <b>Google Chrome</b> Only !!</p>
+            <p id="alertMessage"><b>Loading ...</b></p>
         </div>
     </div>
     <script>
@@ -198,6 +199,17 @@
     </script>
 </body>
 <script>
+    // Function to detect if the user is on an iPhone
+    function isIPhone() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        return /iPhone/i.test(userAgent);
+    }
+    if (isIPhone()) {
+        document.getElementById('alertMessage').innerHTML = 'Use <b>Safari Browser</b> Only !!';
+    }
+    else {
+        document.getElementById('alertMessage').innerHTML = 'Use <b>Google Chrome</b> Only !!';
+    }
 
     if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
         window.location = '../index.html';
