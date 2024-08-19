@@ -202,7 +202,7 @@
     // Function to detect if the user is on an iPhone
     function isIPhone() {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        return /android/i.test(userAgent);
+        return (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream);
     }
     if (isIPhone()) {
         document.getElementById('alertMessage').innerHTML = 'Use <b>Safari Browser</b> Only !!';
