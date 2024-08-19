@@ -225,7 +225,7 @@
 
     // Handle click event on the "download-pwa" button
     document.getElementById('download-pwa').addEventListener('click', () => {
-        if (isIPhone) {
+        if (isIPhone()) {
             // Redirect to help page for iPhone users
             window.location = '/pwaInstallation/help.html';
         } else if (deferredPrompt) {
