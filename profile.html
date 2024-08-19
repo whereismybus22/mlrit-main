@@ -423,7 +423,7 @@
             const loginDetails = getCookie(cookieName2);
 
             if (!loginDetails) {
-                window.location.href = "index.html";
+                window.location.href = "/index.html";
             } else {
                 const cookieName = "busDetails";
                 const busDetails = getCookie(cookieName);
@@ -438,7 +438,7 @@
         }
 
         // Call loadProfileDetails when the page loads
-        window.onload = loadProfileDetails;
+        loadProfileDetails();
 
         // Add event listener for the close button
         document.getElementById('close-button').addEventListener('click', function () {
