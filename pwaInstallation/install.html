@@ -215,27 +215,35 @@
         window.location = '../index.html';
     }
 
+    let deferredPrompt; // Variable to hold the deferred prompt event
+
+    // Set up the 'beforeinstallprompt' event listener once when the script loads
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); // Prevent the default mini-infobar or install prompt
+        deferredPrompt = e; // Save the event for later use
+    });
+
+    // Handle click event on the "download-pwa" button
     document.getElementById('download-pwa').addEventListener('click', () => {
         if (isIPhone) {
+            // Redirect to help page for iPhone users
             window.location = '/pwaInstallation/help.html';
-        }
-        else {
-            let deferredPrompt;
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the PWA prompt');
-                    } else {
-                        console.log('User dismissed the PWA prompt');
-                    }
-                    deferredPrompt = null;
-                });
+        } else if (deferredPrompt) {
+            // Show the prompt if it's available
+            deferredPrompt.prompt(); // Show the PWA install prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the PWA prompt');
+                } else {
+                    console.log('User dismissed the PWA prompt');
+                }
+                deferredPrompt = null; // Clear the deferred prompt after use
             });
+        } else {
+            console.log('PWA install prompt is not available');
         }
     });
+
 
     function openHelpPage() {
         window.location.href = '/pwaInstallation/help.html';
