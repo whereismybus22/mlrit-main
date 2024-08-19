@@ -174,7 +174,7 @@
         </div>
         <div class="content-container">
             <div class="text-container">
-                <h2>Install App</h2>
+                <h2 id="text-content">Install App</h2>
             </div>
             <div class="button-container">
                 <button id="download-pwa">
@@ -234,14 +234,16 @@
             deferredPrompt.userChoice.then((choiceResult) => {
                 if (choiceResult.outcome === 'accepted') {
                     console.log('User accepted the PWA prompt');
-                    document.getElementById('alertMessage').innerHTML = '<b>App Installing ... !!</b>';
+                    document.getElementById('text-content').innerHTML = 'Hang on !!  App Installing ...';
                 } else {
                     console.log('User dismissed the PWA prompt');
                 }
                 deferredPrompt = null; // Clear the deferred prompt after use
             });
-        } else if (!(document.getElementById('alertMessage').innerHTML === '<b>App Installing ... !!</b>')) {
-            window.open('https://mlrit-whereismybus.vercel.app/');
+        } else if (!(document.getElementById('text-content').innerHTML === 'Hang on !!  App Installing ...')) {
+            alert('App is Installing ... or already Installed !! \n please check you device apps section.')
+        } else{
+            alert('Please visit help page by clicking "help?" !!')
         }
     });
 
