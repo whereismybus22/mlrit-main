@@ -211,7 +211,6 @@
         document.getElementById('download-pwa').addEventListener('click', () => {
             if(/android/i.test(userAgent)){
                 window.location='/pwaInstallation/help.html';
-                return;
             }
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then((choiceResult) => {
