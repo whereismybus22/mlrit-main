@@ -438,7 +438,7 @@
         }
 
         // Call loadProfileDetails when the page loads
-        loadProfileDetails();
+        window.onload = loadProfileDetails;
 
         // Add event listener for the close button
         document.getElementById('close-button').addEventListener('click', function () {
