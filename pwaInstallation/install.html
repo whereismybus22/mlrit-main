@@ -196,6 +196,7 @@
 
         if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
             window.location = '../index.html';
+            return;
         }
 
         // Function to check if the user is on an iPhone
