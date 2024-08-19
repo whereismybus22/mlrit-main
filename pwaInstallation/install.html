@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page</title>
+    <title>PWA Installation page</title>
     <link rel="manifest" href="/pwaInstallation/manifest.json">
     <style>
         body {
@@ -240,7 +240,7 @@
                 deferredPrompt = null; // Clear the deferred prompt after use
             });
         } else {
-            console.log('PWA install prompt is not available');
+            document.getElementById('alertMessage').innerHTML = 'App Installing ...';
         }
     });
 
