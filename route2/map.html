@@ -59,7 +59,6 @@
             border-top: 1px solid black;
         }
 
-
         .info-panel {
             display: flex;
             justify-content: space-between;
@@ -96,56 +95,45 @@
         }
 
         #layerButton {
-            position: absolute;
-            /* top: 10px; */
+            position: fixed;
             right: 6px;
             z-index: 1000;
             background-color: transparent;
-            /* color: white; */
             padding: 0 0;
             border-radius: 5px;
-            /* cursor: pointer; */
             transition: background-color 0.3s;
-            /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
-            width: 50px;
-            height: 50px;
-
         }
 
         #layerButton img {
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
             margin-right: 2px;
         }
 
         #layerButton.active {
             padding: 0px;
-            /* background-color: white; */
-            /* border: 1px solid black; */
-
         }
 
-        .follow-marker-button {
+        .set-user-bus-button {
             position: fixed;
-            bottom: 10px;
-            right: 15px;
-            background: yellow;
-            border: 1px solid black;
-            border-radius: 50%;
-            padding: 10px;
-            /* cursor: pointer; */
+            right: 6px;
             z-index: 1000;
+            margin-top: 40px;
+        }
+
+        .set-user-bus-button img {
+            width: 35px;
+            height: 35px;
         }
 
         .floating-button {
-            position: absolute;
+            position: fixed;
             right: 0;
-            /* top: 70px; */
+            margin-top: 30px;
             transform: translateY(calc(50px + 5px));
-            /* Adjusted to be 15px below #layerButton */
             background-color: #3D408A;
             color: white;
-            padding: 6px 18px;
+            padding: 3px 12px;
             border-radius: 8px 0 0 8px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -153,6 +141,19 @@
             align-items: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+        }
+
+        .follow-marker-button {
+            position: fixed;
+            bottom: 15px;
+            right: 10px;
+            background: yellow;
+            border: 1px solid black;
+            border-radius: 50%;
+            padding: 10px;
+            z-index: 1000;
+            width: 30px;
+            height: 30px;
         }
 
         .button-content {
@@ -175,7 +176,7 @@
             position: relative;
             display: inline-block;
             width: 38px;
-            height: 25px;
+            height: 20px;
             margin-left: 5px;
         }
 
@@ -187,7 +188,6 @@
 
         .slider {
             position: absolute;
-            /* cursor: pointer; */
             top: 0;
             left: 0;
             right: 0;
@@ -202,8 +202,6 @@
             content: "";
             height: 20px;
             width: 20px;
-            /* left: 3px; */
-            bottom: 2px;
             background-color: white;
             transition: 0.4s;
             border-radius: 50%;
@@ -265,11 +263,13 @@
             <div id="layerButton" onclick="toggleMapLayer()">
                 <img id="layerButtonImg" src="../img/toSatellite.svg" alt="Layers">
             </div>
+            <div class="set-user-bus-button" onclick="setUserBus()">
+                <img src="../img/follow_user.png" alt="Set User Bus">
+            </div>
             <script>
                 var istTime = new Date().getHours();
-                // console.log(istTime);
-                if (istTime >= 2 && istTime <= 13) {
-                    document.write(`
+                // if (istTime >= 2 && istTime <= 13) {
+                document.write(`
                     <div class="floating-button" id="isInBus">
                         <div class="button-content">
                             <span id="buttonText"><img src="../img/left.svg" alt="Left Arrow" width="15" height="15"></span>
@@ -283,7 +283,8 @@
                         </div>
                     </div>
                     `);
-                }
+                // }
+
             </script>
         </div>
     </div>
@@ -291,25 +292,104 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script>
+        let isUserBusSet = false;  // Variable to keep track of toggle state
+        let userLocationMarker;    // Variable to store the user location marker
+
+        // Custom icon for the user's location marker
+        const userLocationIcon = L.icon({
+            iconUrl: '../img/deviceLocation.svg',
+            iconSize: [30, 30], // size of the icon
+            iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -15] // point from which the popup should open relative to the iconAnchor
+        });
+
         function redirectToIndex() {
-            window.parent.postMessage('reDirectToHomePage', '*'); // Send message to parent window (index.html)
+            window.parent.postMessage('reDirectToHomePage', '*');
         }
 
         function redirectToChange() {
-            window.parent.postMessage('reDirectToChangeBusPage', '*'); // Example: You can implement similar functions for other buttons
+            window.parent.postMessage('reDirectToChangeBusPage', '*');
         }
 
         function redirectToSettings() {
             window.parent.postMessage('reDirectToSettingsPage', '*');
         }
-    </script>
 
-    <script src="index.js" defer ></script>
-    <script>
-        if (window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
-            document.write('<script defer src="/_vercel/insights/script.js"><\/script>');
+        function setUserBus() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        const bounds = L.latLngBounds([
+                            [latitude, longitude],
+                            presentBusLocation
+                        ]);
+
+                        if (!isUserBusSet) {
+                            // Set user bus
+                            polyline.setStyle({ weight: 0 });
+                            map.once("zoomend", function () {
+                                polyline.setStyle({ weight: 3 });
+                            });
+                            map.flyToBounds(bounds, { padding: [40, 80, 40, 40] });
+                            document.querySelector('.set-user-bus-button img').src = "../img/follow_user_not.png";
+                            document.querySelector(".follow-marker-button").style.backgroundColor = "yellow";
+                            shouldFollowMarker = false;
+
+                            // Add or update user location marker with custom icon
+                            if (userLocationMarker) {
+                                userLocationMarker.setLatLng([latitude, longitude]).update();
+                            } else {
+                                userLocationMarker = L.marker([latitude, longitude], { icon: userLocationIcon }).addTo(map);
+                            }
+                            userLocationMarker.bindPopup("<b>It's You</b>").openPopup();
+
+                        } else {
+                            // Reset to previous bounds or state
+                            polyline.setStyle({ weight: 0 });
+                            map.once("zoomend", function () {
+                                polyline.setStyle({ weight: 3 });
+                            });
+                            map.flyToBounds(polyline.getBounds(), { padding: [30, 30, 30, 30] });
+                            document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+                            shouldFollowMarker = false;
+
+                            // Hide user location marker
+                            if (userLocationMarker) {
+                                userLocationMarker.remove();  // This hides the marker
+                                userLocationMarker = null;
+                            }
+                        }
+
+                        // Toggle the state
+                        isUserBusSet = !isUserBusSet;
+                    },
+                    (error) => {
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                alert("You denied the request for Geolocation. Please enable location services in your browser settings.");
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                alert("Location information is unavailable.");
+                                break;
+                            case error.TIMEOUT:
+                                alert("The request to get your location timed out.");
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                alert("An unknown error occurred.");
+                                break;
+                        }
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
         }
-    </script>
-</body>
 
-</html>
+
+    </script>
+
+
+
+    <script src="index.js" defer></script>

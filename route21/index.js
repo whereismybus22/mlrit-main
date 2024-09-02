@@ -130,6 +130,7 @@ function calculateDistanceTimeSpeed(locationOne, locationTwo, speed) {
 }
 
 async function fetchBusLocation() {
+
   const auth = await hypegpstracker(whereismybus);
   const url = `https://portal.hypegpstracker.com/api/get_devices?user_api_hash=${auth}`;
 
@@ -149,6 +150,51 @@ async function fetchBusLocation() {
     presentBusLocation = [filteredData.lat, filteredData.lng];
     // console.log(presentBusLocation);
     // console.log(shouldFollowMarker);
+
+    if (isUserBusSet) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const bounds = L.latLngBounds([
+              [latitude, longitude],
+              presentBusLocation
+            ]);
+            map.fitBounds(bounds, { padding: [40, 80, 40, 40] });
+
+            // Add or update user location marker with custom icon
+            if (userLocationMarker) {
+              userLocationMarker.setLatLng([latitude, longitude]).update();
+            } else {
+              userLocationMarker = L.marker([latitude, longitude], { icon: userLocationIcon }).addTo(map);
+            }
+            // userLocationMarker.bindPopup(`[${latitude},${longitude}]`).openPopup();
+            userLocationMarker.bindPopup("<b>It's You</b>").openPopup();
+          },
+          (error) => {
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                alert("You denied the request for Geolocation. Please enable location services in your browser settings.");
+                break;
+              case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable.");
+                break;
+              case error.TIMEOUT:
+                alert("The request to get your location timed out.");
+                break;
+              case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+            }
+          },
+          { enableHighAccuracy: true }
+        );
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
 
     if (
       previousBusLocation[0] !== presentBusLocation[0] ||
@@ -179,6 +225,8 @@ async function fetchBusLocation() {
               ".follow-marker-button"
             ).style.backgroundColor = "white";
           });
+          isUserBusSet = false;  // Variable to keep track of toggle state 
+          document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
         });
       } else {
         animateMarker(busMarker, previousBusLocation, presentBusLocation, 2000);
@@ -266,6 +314,9 @@ function toggleFollowMarker() {
     document.querySelector(".follow-marker-button").style.backgroundColor =
       "white";
   });
+  isUserBusSet = false;  // Variable to keep track of toggle state 
+  document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+
 }
 
 var sourceLocation;
@@ -334,6 +385,9 @@ fetch(path)
       map.once("zoomend", function () {
         polyline.setStyle({ weight: 3 });
       });
+      isUserBusSet = false;  // Variable to keep track of toggle state 
+      document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+
     });
     destinationLocation = coordinates[coordinates.length - 1];
     var destinationMarker = L.marker(destinationLocation, {
@@ -352,6 +406,9 @@ fetch(path)
       map.once("zoomend", function () {
         polyline.setStyle({ weight: 3 });
       });
+      isUserBusSet = false;  // Variable to keep track of toggle state 
+      document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+
     });
   })
   .catch((error) => console.error("Error fetching coordinates.json:", error));
@@ -402,6 +459,9 @@ studentStopMarker.on("click", function () {
   map.once("zoomend", function () {
     polyline.setStyle({ weight: 3 });
   });
+  isUserBusSet = false;  // Variable to keep track of toggle state 
+  document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+
 });
 
 map.on("dragstart", function () {
@@ -409,6 +469,13 @@ map.on("dragstart", function () {
   // console.log(shouldFollowMarker);
   document.querySelector(".follow-marker-button").style.backgroundColor =
     "yellow";
+  isUserBusSet = false;  // Variable to keep track of toggle state 
+  document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+  if (userLocationMarker) {
+    userLocationMarker.remove();  // This hides the marker
+    userLocationMarker = null;
+  }
+
 });
 
 if (document.getElementById("isInBus")) {
