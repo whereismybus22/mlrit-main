@@ -316,17 +316,17 @@
         }
 
         function setUserBus() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const latitude = position.coords.latitude;
-                        const longitude = position.coords.longitude;
-                        const bounds = L.latLngBounds([
-                            [latitude, longitude],
-                            presentBusLocation
-                        ]);
+            if (!isUserBusSet) {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const latitude = position.coords.latitude;
+                            const longitude = position.coords.longitude;
+                            const bounds = L.latLngBounds([
+                                [latitude, longitude],
+                                presentBusLocation
+                            ]);
 
-                        if (!isUserBusSet) {
                             // Set user bus
                             polyline.setStyle({ weight: 0 });
                             map.once("zoomend", function () {
@@ -345,49 +345,49 @@
                             }
                             userLocationMarker.bindPopup("<b>It's You</b>").openPopup();
 
-                        } else {
-                            // Reset to previous bounds or state
-                            polyline.setStyle({ weight: 0 });
-                            map.once("zoomend", function () {
-                                polyline.setStyle({ weight: 3 });
-                            });
-                            map.flyToBounds(polyline.getBounds(), { padding: [30, 30, 30, 30] });
-                            document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
-                            shouldFollowMarker = false;
-
-                            // Hide user location marker
-                            if (userLocationMarker) {
-                                userLocationMarker.remove();  // This hides the marker
-                                userLocationMarker = null;
+                            // Toggle the state
+                            isUserBusSet = !isUserBusSet;
+                        },
+                        (error) => {
+                            switch (error.code) {
+                                case error.PERMISSION_DENIED:
+                                    alert("You denied the request for Geolocation. Please enable location services in your browser settings.");
+                                    break;
+                                case error.POSITION_UNAVAILABLE:
+                                    alert("Location information is unavailable.");
+                                    break;
+                                case error.TIMEOUT:
+                                    alert("The request to get your location timed out.");
+                                    break;
+                                case error.UNKNOWN_ERROR:
+                                    alert("An unknown error occurred.");
+                                    break;
                             }
                         }
-
-                        // Toggle the state
-                        isUserBusSet = !isUserBusSet;
-                    },
-                    (error) => {
-                        switch (error.code) {
-                            case error.PERMISSION_DENIED:
-                                alert("You denied the request for Geolocation. Please enable location services in your browser settings.");
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                alert("Location information is unavailable.");
-                                break;
-                            case error.TIMEOUT:
-                                alert("The request to get your location timed out.");
-                                break;
-                            case error.UNKNOWN_ERROR:
-                                alert("An unknown error occurred.");
-                                break;
-                        }
-                    }
-                );
+                    );
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
             } else {
-                alert("Geolocation is not supported by this browser.");
+                // Reset to previous bounds or state
+                polyline.setStyle({ weight: 0 });
+                map.once("zoomend", function () {
+                    polyline.setStyle({ weight: 3 });
+                });
+                map.flyToBounds(polyline.getBounds(), { padding: [30, 30, 30, 30] });
+                document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+                shouldFollowMarker = false;
+
+                // Hide user location marker
+                if (userLocationMarker) {
+                    userLocationMarker.remove();  // This hides the marker
+                    userLocationMarker = null;
+                }
+
+                // Toggle the state
+                isUserBusSet = !isUserBusSet;
             }
         }
-
-
     </script>
 
 
