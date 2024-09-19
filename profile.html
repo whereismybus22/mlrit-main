@@ -21,7 +21,6 @@
 
 
         #zero-div {
-            /* margin-top: 5%; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -44,11 +43,11 @@
         }
 
         #fifth-div {
-            margin-top: 10%;
+            margin-top: 8%;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 20px;
             background-color: #fff;
         }
 
@@ -103,7 +102,7 @@
         }
 
         #select-bus-text {
-            margin-top: 5%;
+            margin-top: 20px;
             font-size: 18px;
             margin-bottom: 15px;
         }
@@ -114,7 +113,7 @@
         }
 
         #third-div {
-            margin-top: 5%;
+            margin-top: 20px;
             padding: 20px;
             background-color: #fff;
             /* border-bottom: 1px solid #ccc; */
@@ -151,7 +150,7 @@
             align-items: center;
             justify-content: flex-end;
             max-width: 95%;
-            margin-top: 5%;
+            margin-top: 6%;
         }
 
         .bus-pass-text {
@@ -166,7 +165,7 @@
 
 
         #fourth-div {
-            margin-top: 10%;
+            margin-top: 5%;
             display: flex;
             justify-content: space-between;
             padding: 20px;
@@ -295,6 +294,7 @@
         } else {
             busPassText.innerHTML = '<b>Add Bus pass</b> (optional)';
         }
+
         window.addEventListener('focus', () => {
             const storedImage = localStorage.getItem('uploadedImage');
             const busPassText = document.getElementById('bus-pass-text');
