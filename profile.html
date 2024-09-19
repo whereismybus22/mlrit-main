@@ -295,14 +295,16 @@
             busPassText.innerHTML = '<b>Add Bus pass</b> (optional)';
         }
 
-        window.addEventListener('focus', () => {
-            const storedImage = localStorage.getItem('uploadedImage');
-            const busPassText = document.getElementById('bus-pass-text');
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                const storedImage = localStorage.getItem('uploadedImage');
+                const busPassText = document.getElementById('bus-pass-text');
 
-            if (storedImage) {
-                busPassText.innerHTML = '<b>See Bus pass</b>';
-            } else {
-                busPassText.innerHTML = '<b>Add Bus pass</b> (optional)';
+                if (storedImage) {
+                    busPassText.innerHTML = '<b>See Bus pass</b>';
+                } else {
+                    busPassText.innerHTML = '<b>Add Bus pass</b> (optional)';
+                }
             }
         });
 
