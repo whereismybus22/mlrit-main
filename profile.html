@@ -114,7 +114,7 @@
         }
 
         #third-div {
-            margin-top: 10%;
+            margin-top: 5%;
             padding: 20px;
             background-color: #fff;
             /* border-bottom: 1px solid #ccc; */
@@ -145,6 +145,25 @@
             height: 28px;
             width: 28px;
         }
+
+        #bus-pass {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            max-width: 95%;
+            margin-top: 5%;
+        }
+
+        .bus-pass-text {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .bus-pass-img {
+            width: 26px;
+            height: 26px;
+        }
+
 
         #fourth-div {
             margin-top: 10%;
@@ -208,6 +227,18 @@
             padding: 5px 10px;
             z-index: 1001;
         }
+
+        #download-app {
+
+            position: absolute;
+            right: 20px;
+            height: 30px;
+            width: 30px;
+            background: no-repeat center center;
+            background-size: contain;
+            border: none;
+            background-image: url('/img/download.svg');
+        }
     </style>
 </head>
 
@@ -215,6 +246,7 @@
     <div id="first-div">
         <button id="back-button"></button>
         <div id="profile-text">Profile</div>
+        <button id="download-app" onclick="window.location='https://mlrit-whereismybus.vercel.app/'"></button>
     </div>
 
     <div id="zero-div">
@@ -242,6 +274,13 @@
         </div>
     </div>
 
+    <div id="bus-pass">
+        <span id="bus-pass-text"><b>Bus pass</b></span>
+        <a href="buspass.html">
+            <img src="img/goto.png" style="margin-left: 10px;" alt="Go to Bus Pass" class="bus-pass-img">
+        </a>
+    </div>
+
     <div id="fifth-div">
         <div id="query-text"> Any Query/Feedback ? </div>
         <button id="mail-image"></button>
@@ -259,6 +298,19 @@
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
+
+    <script>
+        const storedImage = localStorage.getItem('uploadedImage');
+        const busPassText = document.getElementById('bus-pass-text');
+
+        if (storedImage) {
+            busPassText.innerHTML = '<b>See Bus pass</b>';
+        } else {
+            busPassText.innerHTML = '<b>Add Bus pass</b> (optional)';
+        }
+
+
+    </script>
 
     <script>
         // Define the image URL for the walkthrough video button
