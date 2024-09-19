@@ -227,7 +227,6 @@
             padding: 5px 10px;
             z-index: 1001;
         }
-
     </style>
 </head>
 
@@ -296,7 +295,16 @@
         } else {
             busPassText.innerHTML = '<b>Add Bus pass</b> (optional)';
         }
+        window.addEventListener('focus', () => {
+            const storedImage = localStorage.getItem('uploadedImage');
+            const busPassText = document.getElementById('bus-pass-text');
 
+            if (storedImage) {
+                busPassText.innerHTML = '<b>See Bus pass</b>';
+            } else {
+                busPassText.innerHTML = '<b>Add Bus pass</b> (optional)';
+            }
+        });
 
     </script>
 
