@@ -32,6 +32,7 @@
         #walkthrough-text {
             font-size: 16px;
             margin-right: 10px;
+            font-weight: bold;
         }
 
         #walkthrough-video {
@@ -226,6 +227,17 @@
             padding: 5px 10px;
             z-index: 1001;
         }
+
+        #download-app {
+            position: absolute;
+            right: 20px;
+            height: 30px;
+            width: 30px;
+            background: no-repeat center center;
+            background-size: contain;
+            border: none;
+            background-image: url("/img/download.svg");
+        }
     </style>
 </head>
 
@@ -233,7 +245,14 @@
     <div id="first-div">
         <button id="back-button"></button>
         <div id="profile-text">Profile</div>
+        <button id="download-app" onclick="window.location='/pwaInstallation/install.html'"
+            style="display: none"></button>
     </div>
+
+    <script>
+        if (!window.matchMedia("(display-mode: standalone)").matches)
+            document.getElementById("download-app").style.display = "block";
+    </script>
 
     <div id="zero-div">
         <div id="walkthrough-text">Website Walkthrough</div>
