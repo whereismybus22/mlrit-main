@@ -184,7 +184,7 @@
         </div>
         <div class="help-wrapper">
             <a href="#" class="help-link"
-                onclick="window.location='https://mlrit-whereismybus-persist.vercel.app/'">Continue with website !</a>
+                onclick="window.location='../indexMain.html'">Continue with website !</a>
             <a href="#" class="help-link" onclick="openHelpPage()">help?</a>
         </div>
         <div class="alert" id="alertBox">
@@ -243,7 +243,7 @@
         } else if ((document.getElementById('text-content').innerHTML === 'Hang on !!  App Installing ...')) {
             alert('App is Installing ... or already Installed !! \n please check you device App Screen.')
         } else{
-            alert('Check your device App screen or click on "help?" link !!')
+            window.location="/pwaInstallation/help.html";
         }
     });
 

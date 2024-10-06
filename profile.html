@@ -254,9 +254,10 @@
     <div id="third-div">
         <div id="enter-busstop-details"><b>Setup Your Bus Stop</b></div>
         <div id="location-coordinates">
-            <input type="text" id="textDisplay" value="Choose One Option ..." readonly>
-            <img src="img/myLocation.svg" id="btnCurrentLocation" onclick="getCurrentLocation()" alt="Current Location">
-            <a href="#" onclick="showMap()"> <img src="img/map.svg" alt="Map"></a>
+            <input type="text" id="textDisplay" value="Choose One Option ..." readonly style="font-weight: bold;" />
+            <img src="img/myLocation.svg" id="btnCurrentLocation" onclick="getCurrentLocation()"
+                alt="Current Location" />
+            <a href="#" onclick="showMap()"> <img src="img/map.svg" alt="Map" /></a>
         </div>
     </div>
 
@@ -374,7 +375,10 @@
         // JavaScript functions for location coordinates div
         function getCurrentLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError, { enableHighAccuracy: true });
+                document.getElementById('textDisplay').value = "Loading ...";
+                navigator.geolocation.getCurrentPosition(showPosition, showError, {
+                    enableHighAccuracy: true,
+                });
             } else {
                 alert("Geolocation is not supported by this browser.");
             }

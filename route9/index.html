@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Where is my Bus</title>
     <link rel="shortcut icon" href="favicon.ico">
-    <style>
+    <style id="dynamic-styles">
+        /* Default styles (non-standalone) */
         body, html {
             margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
+            font-family: Arial, sans-serif;
         }
+    </style>
+    <style>
 
         #animation-overlay {
             position: fixed;
@@ -41,6 +44,22 @@
     <div id="map-container">
         <iframe src="../announcement.html" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
+    <script>
+        // Check if the PWA is in standalone mode
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+            const styles = document.getElementById('dynamic-styles');
+            styles.textContent = `
+                body, html {
+                    margin: 0;
+                    display: flex;
+                    flex-direction: column;
+                    height: 100vh;
+                    overflow: hidden;
+                    font-family: Arial, sans-serif;
+                }
+            `;
+        }
+    </script>
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
     <script>
         window.onload = function() {
@@ -54,7 +73,7 @@
                 }
             }
         };
-        
+
         function getCookie(name) {
             const nameEQ = name + "=";
             const ca = document.cookie.split(';');
