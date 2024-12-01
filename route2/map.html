@@ -139,51 +139,23 @@
             height: 35px;
         }
 
-        #iframe-container {
+        .directions-toGoogleMap {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* background-color: rgba(0, 0, 0, 0.5); */
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1002;
-            background-color: white;
-
+            right: 6px;
+            z-index: 1000;
+            margin-top: 120px;
+            /* Adjusted to place below the set-user-bus-button */
         }
 
-        iframe {
-
-            border: none;
-            background: transparent;
-        }
-
-        #close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            font-size: 18px;
-            text-align: center;
-            line-height: 40px;
-        }
-
-        #close-btn:hover {
-            background-color: darkred;
+        .directions-toGoogleMap img {
+            width: 35px;
+            height: 35px;
         }
 
         .floating-button {
             position: fixed;
             right: 0;
-            margin-top: 65px;
+            margin-top: 105px;
             transform: translateY(calc(50px + 5px));
             background-color: #3D408A;
             color: white;
@@ -282,6 +254,47 @@
             font-size: 14px;
             font-weight: bold;
         }
+
+        #iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background-color: rgba(0, 0, 0, 0.5); */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+            background-color: white;
+
+        }
+
+        iframe {
+
+            border: none;
+            background: transparent;
+        }
+
+        #close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 18px;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        #close-btn:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 
@@ -320,8 +333,11 @@
             <div class="set-user-bus-button" onclick="setUserBus()">
                 <img src="../img/follow_user.png" alt="Set User Bus">
             </div>
-            <div class="location-address-button" >
+            <div class="location-address-button">
                 <img id="locationAddressID" src="../img/locationAddress.png" alt="Location Address">
+            </div>
+            <div class="directions-toGoogleMap">
+                <img id="directionsGoogleMap" src="../img/directions.png" alt="Directions To Google Map ">
             </div>
             <script>
                 var istTime = new Date().getHours();
@@ -475,5 +491,5 @@
     </script>
 
 
-
+    <script src="../directionsToGoogleMap.js" defer></script>
     <script src="index.js" defer></script>
