@@ -139,10 +139,23 @@
             height: 35px;
         }
 
+        .directions-toGoogleMap {
+            position: fixed;
+            right: 6px;
+            z-index: 1000;
+            margin-top: 120px;
+            /* Adjusted to place below the set-user-bus-button */
+        }
+
+        .directions-toGoogleMap img {
+            width: 35px;
+            height: 35px;
+        }
+
         .floating-button {
             position: fixed;
             right: 0;
-            margin-top: 65px;
+            margin-top: 105px;
             transform: translateY(calc(50px + 5px));
             background-color: #3D408A;
             color: white;
@@ -343,6 +356,9 @@
             <div class="location-address-button" >
                 <img id="locationAddressID" src="../img/locationAddress.png" alt="Location Address">
             </div>
+            <div class="directions-toGoogleMap">
+                <img id="directionsGoogleMap" src="../img/directions.png" alt="Directions To Google Map ">
+            </div>
         </div>
     </div>
     <div id="iframe-container">
@@ -473,5 +489,5 @@
     </script>
 
 
-
+    <script src="../directionsToGoogleMap.js" defer></script>
     <script src="index.js" defer></script>
