@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Google Maps with Directions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #openMapButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #openMapButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Click the button to open Google Maps with directions</h2>
+    <button id="openMapButton">Open Directions in Google Maps</button>
+
+    <script>
+        // Destination as an array [lat, long]
+        const destination = [17.450764509130053, 78.3811854955396]; // example destination coordinates (New York)
+
+        // Function to get the current geolocation and open Google Maps with directions
+        function openMapWithCurrentLocation() {
+            if (navigator.geolocation) {
+                // Get the user's current location
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const currentLat = position.coords.latitude;
+                    const currentLng = position.coords.longitude;
+
+                    // Construct Google Maps Directions URL with current location as origin
+                    const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${currentLat},${currentLng}&destination=${destination[0]},${destination[1]}&travelmode=driving`;
+
+                    // Open Google Maps with the directions URL in a new tab
+                    window.open(mapUrl, '_blank');
+                }, function(error) {
+                    // Error handling if location is not accessible
+                    alert("Unable to retrieve your location. Please make sure you allow location access.");
+                });
+            } else {
+                // If geolocation is not supported
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Event listener for the button to open maps
+        document.getElementById('openMapButton').addEventListener('click', openMapWithCurrentLocation);
+    </script>
+</body>
+</html>
