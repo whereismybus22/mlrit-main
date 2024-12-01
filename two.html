@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Location - Two</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+        }
+        #map {
+            width: 0%;
+            height: 0%;
+        }
+        #info-section {
+            position: fixed;
+            background-color: white;
+            padding: 20px;
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+            z-index: 1000;
+            width: 300px;
+            text-align: center;
+        }
+        #info-section h3 {
+            margin: 0;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        #info-section p {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Add the missing map container -->
+    <div id="map"></div>
+
+    <div id="info-section">
+        <h3>Bus Location Address</h3>
+        <p id="location-address">Loading...</p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <script>
+        // Get the busLocation from the URL query parameters
+        var urlParams = new URLSearchParams(window.location.search);
+        var lat = parseFloat(urlParams.get('lat'));
+        var lng = parseFloat(urlParams.get('lng'));
+
+        console.log("Latitude:", lat, "Longitude:", lng);  // Debugging
+
+        // Initialize the map
+        var map = L.map('map').setView([lat, lng], 18);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Initialize the geocoder (Nominatim) for reverse geocoding
+        var geocoder = L.Control.Geocoder.nominatim();
+
+        // Reverse geocode the busLocation coordinates to get the address
+        var latLng = L.latLng(lat, lng);
+        geocoder.reverse(latLng, map.options.crs.scale(map.getZoom()), function(results) {
+            var address = results[0] ? results[0].name : 'Address not found';
+
+            // Display the address in the info section
+            document.getElementById('location-address').textContent = address;
+
+            // If you want to show the map after address is loaded, you can do so like this:
+            document.getElementById('map').style.display = 'block';  // Show the map after address is loaded
+        });
+    </script>
+
+</body>
+</html>
