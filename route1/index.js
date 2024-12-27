@@ -336,30 +336,14 @@ var satelliteLayer = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   {
     maxZoom: 19,
-    attribution: "Imagery © Esri, Map data © OpenStreetMap contributors",
-  }
-);
-
-var labelsLayer = L.tileLayer(
-  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  {
-    maxZoom: 19,
     attribution: "© OpenStreetMap contributors",
   }
 );
 
-var hybridLayer = L.layerGroup([satelliteLayer, labelsLayer]);
-
-// Add the hybrid layer to the map
-var map = L.map("map", {
-  center: [0, 0], // Set your desired coordinates
-  zoom: 2,
-  layers: [hybridLayer], // Add the hybrid layer by default
-});
 
 var baseMaps = {
   "Street View": streetLayer,
-  "Satellite View": hybridLayer,
+  "Satellite View": satelliteLayer,
 };
 
 var map = L.map("map", {
@@ -436,12 +420,12 @@ var isStreetView = true;
 function toggleMapLayer() {
   if (isStreetView) {
     map.removeLayer(streetLayer);
-    map.addLayer(hybridLayer);
+    map.addLayer(satelliteLayer);
     polyline.setStyle({ color: "#1036cc", weight: 3 });
     document.getElementById("layerButtonImg").src = "../img/toStreet.svg";
     document.getElementById("layerButton").classList.add("active");
   } else {
-    map.removeLayer(hybridLayer);
+    map.removeLayer(satelliteLayer);
     map.addLayer(streetLayer);
     polyline.setStyle({ color: "black", weight: 3 });
     document.getElementById("layerButtonImg").src = "../img/toSatellite.svg";
