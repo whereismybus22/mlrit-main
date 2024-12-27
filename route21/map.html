@@ -152,10 +152,23 @@
             height: 35px;
         }
 
+        .bus-miss {
+            position: fixed;
+            right: 6px;
+            z-index: 1000;
+            margin-top: 160px;
+            /* Adjusted to place below the set-user-bus-button */
+        }
+
+        .bus-miss img {
+            width: 35px;
+            height: 35px;
+        }
+
         .floating-button {
             position: fixed;
             right: 0;
-            margin-top: 105px;
+            margin-top: 145px;
             transform: translateY(calc(50px + 5px));
             background-color: #3D408A;
             color: white;
@@ -339,6 +352,9 @@
             <div class="directions-toGoogleMap">
                 <img id="directionsGoogleMap" src="../img/directions.png" alt="Directions To Google Map ">
             </div>
+            <div class="bus-miss">
+                <img id="busMiss" src="../img/busMiss.png" alt="Buss Miss ">
+            </div>
             <script>
                 var istTime = new Date().getHours();
                 // if (istTime >= 2 && istTime <= 13) {
@@ -490,5 +506,6 @@
         });
     </script>
 
+    <script src="../busMiss.js" defer></script>
     <script src="../directionsToGoogleMap.js" defer></script>
     <script src="index.js" defer></script>
