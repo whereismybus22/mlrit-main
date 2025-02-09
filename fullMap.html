@@ -172,7 +172,7 @@
 
         async function fetchBusLocation() {
             // const auth = await hypegpstracker(whereismybus);
-            const auth = '$2y$10$Wc4YlsxCSGCmKrEpX9efX.yKreFA2k6INrQgwUzSnLp0/IxeffTLi';
+            const auth = '$2y$10$mUiiGZjTiDatqMEvRhlRAeqVpQlLAW5psz/IchLS/JzBh0HQ9uHDy';
             const url = `https://portal.hypegpstracker.com/api/get_devices?user_api_hash=${auth}`;
 
             try {
@@ -180,10 +180,10 @@
                 const data = await response.json();
 
                 const busData = {
-                    bus1: filterBusData(data, 444),
-                    bus2: filterBusData(data, 445),
-                    bus9: filterBusData(data, 446),
-                    bus21: filterBusData(data, 447)
+                    bus1: filterBusData(data, 459),
+                    bus2: filterBusData(data, 450),
+                    // bus9: filterBusData(data, 447),
+                    bus21: filterBusData(data, 477)
                 };
 
                 updateBusMarkers(busData);

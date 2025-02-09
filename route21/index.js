@@ -132,7 +132,7 @@ function calculateDistanceTimeSpeed(locationOne, locationTwo, speed) {
 async function fetchBusLocation() {
 
   // const auth = await hypegpstracker(whereismybus);
-  const auth = '$2y$10$Wc4YlsxCSGCmKrEpX9efX.yKreFA2k6INrQgwUzSnLp0/IxeffTLi';
+  const auth = '$2y$10$mUiiGZjTiDatqMEvRhlRAeqVpQlLAW5psz/IchLS/JzBh0HQ9uHDy';
   const url = `https://portal.hypegpstracker.com/api/get_devices?user_api_hash=${auth}`;
 
   try {
@@ -270,7 +270,7 @@ function filterData(data) {
   const mlrInstitute = data.find((entry) => entry.id === 22);
   if (!mlrInstitute) return null;
 
-  const item = mlrInstitute.items.find((item) => item.id === 447);
+  const item = mlrInstitute.items.find((item) => item.id === 477);
   if (!item) return null;
 
   const { lat, lng, speed } = item;
