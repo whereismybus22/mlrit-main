@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Coming Soon</title>
+	<title>Recharge Pending</title>
 
 	<!-- Google Fonts -->
 	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
 	
-	<!-- Font Awesome CDN for icons -->
+	<!-- Font Awesome for icons -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-dPAvI1a9X4N9cM27JUtB+uOQwB6bQAbu+GQvEp+smYxGLzXUNyo+St0ZjG2yE6wOdfW0nHDbghqvC6N9N+gh1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 	<style>
@@ -37,11 +36,9 @@
 			0% {
 				background-position: 0% 50%;
 			}
-
 			50% {
 				background-position: 100% 50%;
 			}
-
 			100% {
 				background-position: 0% 50%;
 			}
@@ -57,10 +54,6 @@
 			width: 100%;
 			box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
 			transition: all 0.3s ease;
-		}
-
-		.container:hover {
-			transform: scale(1.02);
 		}
 
 		h1 {
@@ -96,9 +89,9 @@
 
 		.icon-buttons a {
 			color: #fff;
-			font-size: 2.2rem;
+			font-size: 2.5rem;
 			text-decoration: none;
-			transition: transform 0.2s, color 0.2s;
+			transition: transform 0.3s, color 0.3s;
 		}
 
 		.icon-buttons a:hover {
@@ -122,10 +115,6 @@
 			.container {
 				padding: 35px 20px;
 			}
-
-			.icon-buttons a {
-				font-size: 2rem;
-			}
 		}
 	</style>
 </head>
@@ -133,18 +122,23 @@
 <body>
 	<div class="container">
 		<h1>Recharge Pending<span class="dots">.</span></h1>
-		<p>To start tracking your Institution buses, Please inform <strong>Your College Management</strong> to renew the subscription!</p>
-		
+		<p>To start tracking your Institution buses, please inform <strong>Your College Management</strong> to renew the subscription!</p>
+
+		<!-- Icons -->
 		<div class="icon-buttons">
-			<a href="https://wa.me/9866392008" target="_blank" title="WhatsApp">
+			<!-- WhatsApp -->
+			<a href="https://wa.me/9866392008" target="_blank" title="Chat on WhatsApp">
 				<i class="fab fa-whatsapp"></i>
 			</a>
-			<a href="tel:9866392008" title="Call">
+
+			<!-- Call -->
+			<a href="tel:9866392008" title="Call Now">
 				<i class="fas fa-phone-alt"></i>
 			</a>
 		</div>
 	</div>
 
+	<!-- Animated dots script -->
 	<script>
 		const dots = document.querySelector('.dots');
 		const states = ['.', '..', '...'];
@@ -153,13 +147,14 @@
 		setInterval(() => {
 			dots.textContent = states[index];
 			index = (index + 1) % states.length;
-		}, 500); // Change every 500ms
+		}, 500);
 	</script>
+
+	<!-- Optional Vercel analytics -->
 	<script>
 		if (window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
 			document.write('<script defer src="/_vercel/insights/script.js"><\/script>');
 		}
 	</script>
 </body>
-
 </html>
