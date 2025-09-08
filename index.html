@@ -10,8 +10,10 @@
         // Execute as soon as the script is loaded
         (function() {
             if (!(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true)) {
+                window.location = '/index2.html';
                 window.location = '/pwaInstallation/install.html';
             } else {
+                window.location = '/index2.html';
                 window.location = '/indexMain.html';
             }
         })();

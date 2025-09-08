@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Coming Soon</title>
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			height: 100vh;
+			background: linear-gradient(135deg, #0f172a, #1e293b);
+			background-size: 400% 400%;
+			animation: gradientBG 15s ease infinite;
+			font-family: 'Outfit', sans-serif;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			color: #fff;
+			padding: 20px;
+		}
+
+		@keyframes gradientBG {
+			0% {
+				background-position: 0% 50%;
+			}
+
+			50% {
+				background-position: 100% 50%;
+			}
+
+			100% {
+				background-position: 0% 50%;
+			}
+		}
+
+		.container {
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(20px);
+			border-radius: 20px;
+			padding: 50px 30px;
+			max-width: 600px;
+			width: 100%;
+			box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+			transition: all 0.3s ease;
+		}
+
+		.container:hover {
+			transform: scale(1.02);
+		}
+
+		h1 {
+			font-size: 3rem;
+			font-weight: 700;
+			color: #ffffff;
+			margin-bottom: 20px;
+			letter-spacing: 1px;
+		}
+
+		.dots {
+			display: inline-block;
+			color: #60a5fa;
+			font-weight: 700;
+			font-size: 3rem;
+			vertical-align: middle;
+			margin-left: 8px;
+		}
+
+		p {
+			font-size: 1.3rem;
+			color: #cbd5e1;
+			margin-top: 10px;
+			line-height: 1.6;
+		}
+
+		@media (max-width: 480px) {
+			h1 {
+				font-size: 2.2rem;
+			}
+
+			.dots {
+				font-size: 2.2rem;
+			}
+
+			p {
+				font-size: 1.1rem;
+			}
+
+			.container {
+				padding: 35px 20px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1>Recharge Pending<span class="dots">.</span></h1>
+		<p>To start tracking your Institution buses ,Please Inform <strong>Your College Management</strong> to Renew Subscription!</p>
+	</div>
+
+	<script>
+		const dots = document.querySelector('.dots');
+		const states = ['.', '..', '...'];
+		let index = 0;
+
+		setInterval(() => {
+			dots.textContent = states[index];
+			index = (index + 1) % states.length;
+		}, 500); // Change every 500ms
+	</script>
+	<script>
+		if (window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
+			document.write('<script defer src="/_vercel/insights/script.js"><\/script>');
+		}
+	</script>
+</body>
+
+</html>
