@@ -1,3 +1,5 @@
+window.location='/index2.html';
+
 var istTime = new Date().getHours();
 // console.log(istTime);
 
